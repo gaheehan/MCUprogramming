@@ -4,6 +4,8 @@
  * Created: 2022-12-20 오전 9:24:30
  * Author : 21
  */ 
+
+세븐세그먼트로 오름차순 카운터, 내림차순 카운터 만들기 
 #define F_CPU 16000000L
 #include <avr/io.h>
 #include <util/delay.h>
