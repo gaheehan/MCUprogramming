@@ -1,42 +1,54 @@
 /*
- * GccApplication7.c
+ * GccApplication11.c
  *
- * Created: 2022-12-20 오전 9:24:30
+ * Created: 2022-12-23 오후 5:09:40
  * Author : 21
  */ 
 
-세븐세그먼트로 오름차순 카운터, 내림차순 카운터 만들기 
 #define F_CPU 16000000L
 #include <avr/io.h>
 #include <util/delay.h>
 
+//입열기 표정
+void mouthopen() {
+	lc.setRowOrColumn(0, 1, 0, "00100100");
+	lc.setRowOrColumn(0, 4, 0, "01111110");
+	lc.setRowOrColumn(0, 5, 0, "10000001");
+	lc.setRowOrColumn(0, 6, 0, "01111110");
+
+}
+//입닫기 표정
+void mouthclose(){
+	lc.setRowOrColumn(0, 1, 0, "00100100");
+	lc.setRowOrColumn(0, 4, 0, "00000000");
+	lc.setRowOrColumn(0, 5, 0, "11111111");
+	lc.setRowOrColumn(0, 6, 0, "00000000");
+
+}
 
 int main(void)
 {
-	int i = 0;
-	char number[] = {0x7e, 0x60, 0x3d, 0x79, 0x63, 0x5b,0x5f, 0x72, 0x7f, 0x73};
-	DDRE = 0xff; //출력포트	
-	DDRD = 0x00; //입력포트
-	DDRF = 0xff; PORTF = 0xff; //신호발생(출력)
-    while (1) 
-    {
-		if(((PIND & 0b000010) >> 1) == 0){
-			i++;
-			if(i > 9)
-				i=0;
-			PORTE = ~number[i];
-			_delay_ms(1000);
-			}
-		
-		
-		if(((PIND & 0b000100) >> 2) == 0){
-			i--;
-			if(i < 0)
-				i = 9;
-			PORTE = ~number[i];
-			_delay_ms(1000);
-			}
+	char pattern1 = 0x01, pattern2 = 0x01;
+	DDRF = 0xff; //행
+	DDRC = 0xff; //열
+	
+	//PORTF = 0xff;
+	//PORTC = 0x00;
+	
+	while (1)
+	{
+		PORTF = pattern1;
+		PORTC = ~pattern2;
+		pattern1 = pattern1 << 1;
+		if(pattern1 == 0x00){
+			pattern1 = 0x01;
+			pattern2 = pattern2 <<1;
+			if(pattern2 == 0x00)
+			pattern2 = 0x01;
+		}
+		_delay_ms(100);
 	}
+	
 	return 0;
 }
 
