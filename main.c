@@ -4,6 +4,8 @@
  * Created: 2022-12-20 오전 9:24:30
  * Author : 21
  */ 
+
+하나의 세븐세그먼트 스위치1 오름차순 카운터, 스위치2 내림차순 카운터 
 #define F_CPU 16000000L
 #include <avr/io.h>
 #include <util/delay.h>
